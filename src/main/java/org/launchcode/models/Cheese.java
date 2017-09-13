@@ -1,12 +1,27 @@
 package org.launchcode.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * Created by LaunchCode
  */
+//class that we want to be able to store in our database (our model class).
+// We want to make this persistent (stored in the database outside the application
+
+//Annotation flags SpringBoot that we want to store this class in the database
+//Every field within this class (name, description, cheesetype) will be stored within a table in the database unless otherwise specified
+@Entity
 public class Cheese {
+
+    //These two annotations together say that the ID field should be a primary key column in the database
+    @Id
+    //hibernate (data layer) should generate that value for us and manage the value creation
+    @GeneratedValue
+    private int id;
 
     @NotNull
     @Size(min=3, max=15)
@@ -18,28 +33,20 @@ public class Cheese {
 
     private CheeseType type;
 
-    private int cheeseId;
-    private static int nextId = 1;
-
     public Cheese(String name, String description) {
-        this();
         this.name = name;
         this.description = description;
     }
 
-    public Cheese() {
-        cheeseId = nextId;
-        nextId++;
+    //Hibernate uses this constructor
+    public Cheese() { }
+
+    //getter for the ID (not making a setter because this value shouldn't be able to be changed)
+    public int getId() {
+        return id;
     }
 
-    public int getCheeseId() {
-        return cheeseId;
-    }
-
-    public void setCheeseId(int cheeseId) {
-        this.cheeseId = cheeseId;
-    }
-
+    //getters and setters for name
     public String getName() {
         return name;
     }
@@ -48,6 +55,7 @@ public class Cheese {
         this.name = name;
     }
 
+    //getters and setters for description
     public String getDescription() {
         return description;
     }
@@ -56,6 +64,7 @@ public class Cheese {
         this.description = description;
     }
 
+    //getters and setters for CheeseType
     public CheeseType getType() {
         return type;
     }
